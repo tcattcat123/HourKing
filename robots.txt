@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hourking.lol/sitemap.xml
