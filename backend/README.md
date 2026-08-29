@@ -1,6 +1,6 @@
-# HourKing — Backend (Vercel + Supabase)
+# SharkBid — Backend (Vercel + Supabase)
 
-Serverless API for HourKing. Deploys to **Vercel**, database is **Supabase** (PostgreSQL).
+Serverless API for SharkBid. Deploys to **Vercel**, database is **Supabase** (PostgreSQL).
 
 > Note: the spec mentioned MySQL, but Supabase was chosen as "better" — it's PostgreSQL.
 > The SQL schema is plain Postgres; if you really need MySQL, the tables map 1:1.

@@ -1,11 +1,11 @@
 /**
- * HourKing — application logic.
+ * SharkBid — application logic.
  * Vanilla JS, no frameworks. State in localStorage (demo) + in-memory.
  */
 (function () {
   "use strict";
 
-  var HK = window.HourKingData;
+  var HK = window.SharkBidData;
   var SEED_BIDS = HK.SEED_BIDS;
   var getCurrentHourKey = HK.getCurrentHourKey;
   var getTimeLeft = HK.getTimeLeft;
@@ -379,7 +379,7 @@
 
       var chips = "";
       if (isMine) chips += '<span class="you-chip">You</span>';
-      if (isKing) chips += '<span class="king-badge">King of the hour</span>';
+      if (isKing) chips += '<span class="king-badge">Top Shark</span>';
 
       html +=
         '<div class="row' + (isKing ? " is-king" : "") + (isMine ? " is-mine" : "") + (isNew ? " new" : "") + (amountChanged ? " flash" : "") + '" data-url="' + esc(e.url) + '">' +
@@ -425,8 +425,8 @@
       wrap.innerHTML =
         '<span class="how-paid-badge">PAID</span>' +
         '<span class="how-num mono">02</span>' +
-        "<h3>Climb</h3>" +
-        "<p>The highest total this hour sits on the throne.</p>" +
+        "<h3>Hunt</h3>" +
+        "<p>The highest total this hour rules the tank.</p>" +
         '<div class="how-paid-footer">' +
           '<span class="how-paid-price mono">From $' + THRONE_MIN_BID + "</span>" +
           '<button class="how-paid-cta" data-action="throne-cta" data-url="" data-amount="' + THRONE_MIN_BID + '">Reserve this spot<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l8-8M5.5 4H12v6.5"/></svg></button>' +
@@ -436,7 +436,7 @@
 
     var desc = king.desc || "";
     var badge = isMine ? "YOURS" : "TAKEN";
-    var ctaLabel = isMine ? "Reinforce" : "Take the Throne";
+    var ctaLabel = isMine ? "Reinforce" : "Become the Shark";
     var ctaAmount = isMine ? THRONE_MIN_BID : overtake;
 
     wrap.innerHTML =
@@ -531,7 +531,7 @@
 
   function updatePayButton() {
     var a = Number(document.getElementById("bid-amount").value) || 0;
-    var action = modalMode === "throne" ? "Reserve the Spot" : (modalMode === "outbid" ? "Outbid" : "Claim");
+    var action = modalMode === "throne" ? "Reserve the Spot" : (modalMode === "outbid" ? "Outbid" : "Hunt");
     document.getElementById("pay-label").textContent = "Pay " + fmt$(a) + " & " + action;
   }
 
@@ -560,7 +560,7 @@
     if (f) f.src = favicon;
     var d = document.getElementById("bp-desc");
     if (d) d.textContent = modalMode === "throne" ? document.getElementById("bid-desc").value.trim() : "";
-    if (badge) badge.textContent = modalMode === "throne" ? "King" : "King of the hour";
+    if (badge) badge.textContent = "Top Shark";
   }
 
   function openModal(mode, url, amount) {
@@ -570,7 +570,7 @@
     var presetsList = isThrone ? THRONE_PRESETS : HOURLY_PRESETS;
 
     document.getElementById("modal-title").textContent =
-      isThrone ? "Reserve the Spot" : (mode === "outbid" ? "Outbid" : "Claim the Throne");
+      isThrone ? "Reserve the Spot" : (mode === "outbid" ? "Outbid" : "Join the Hunt");
 
     // rebuild presets
     var presets = document.getElementById("presets");
@@ -638,8 +638,8 @@
 
     closeModal();
     var msg = isThrone
-      ? "Payment successful (demo) \u00b7 " + fmt$(amount) + " toward the throne"
-      : "Payment successful (demo) \u00b7 " + fmt$(amount) + " claimed";
+      ? "Payment successful (demo) \u00b7 " + fmt$(amount) + " toward the top shark spot"
+      : "Payment successful (demo) \u00b7 " + fmt$(amount) + " caught";
     toast(msg);
     burstConfetti();
     renderAll();

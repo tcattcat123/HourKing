@@ -1,5 +1,5 @@
 /**
- * HourKing — data layer.
+ * SharkBid — data layer.
  * Mock data + hour logic (pure functions, no DOM).
  */
 (function () {
@@ -54,7 +54,7 @@
     return parts[1] + ":00 UTC";
   }
 
-  window.HourKingData = {
+  window.SharkBidData = {
     SEED_BIDS: SEED_BIDS,
     getCurrentHourKey: getCurrentHourKey,
     getTimeLeft: getTimeLeft,
