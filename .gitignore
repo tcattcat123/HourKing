@@ -1,0 +1,11 @@
+# old single-file draft (replaced by index.html + app.js + styles.css)
+hourking.html
+
+# backend
+backend/node_modules
+backend/.env
+backend/.vercel
+
+# misc
+.DS_Store
+Thumbs.db

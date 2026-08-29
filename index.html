@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Become King for one hour. Highest bid rules the board until the clock hits zero.">
+  <meta name="theme-color" content="#eef3fa">
+  <title>HourKing — Become King for 1 hour</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="ambient" aria-hidden="true"></div>
+
+  <svg class="defs" aria-hidden="true">
+    <defs>
+      <symbol id="i-crown" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M4.5 17.3 2.9 6l5.3 4.3L12 4.6l3.8 5.7 5.3-4.3-1.6 11.3H4.5Z"/>
+        <path fill="currentColor" d="M5.6 14.6h12.8l.9 2.7H4.7l.9-2.7Z"/>
+        <circle fill="currentColor" cx="12" cy="15.9" r="1.6"/>
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 16 16">
+        <path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M8 3v10M3 8h10"/>
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 16 16">
+        <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M4 12l8-8M5.5 4H12v6.5"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="header">
+    <div class="header-inner">
+      <a class="logo" href="#" aria-label="HourKing">
+        <svg class="logo-crown" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-crown"/></svg>
+        <span class="logo-text">HourKing</span>
+        <span class="logo-badge"><span class="logo-badge-dot"></span>LIVE</span>
+      </a>
+
+      <div class="timer" id="timer-box">
+        <div class="timer-meta">
+          <span class="timer-live" aria-hidden="true"></span>
+          <span class="timer-label">Time left</span>
+        </div>
+        <span class="timer-value mono" id="timer">--:--:--</span>
+        <span class="timer-progress" aria-hidden="true"><span class="timer-bar" id="timer-bar"></span></span>
+      </div>
+
+      <div class="current-king">
+        <span class="ck-label">Current King</span>
+        <div class="ck-main">
+          <svg class="ck-crown" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-crown"/></svg>
+          <span class="ck-name" id="ck-name">—</span>
+          <span class="ck-amount mono" id="ck-amount"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <section class="hero">
+      <div class="hero-row">
+        <div class="hero-text">
+          <h1>Become <span class="gold">King</span> for 1 hour</h1>
+          <p class="hero-sub">Highest bid rules the board until the clock hits zero.</p>
+        </div>
+        <button class="btn btn-primary" id="claim-btn">
+          <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-crown"/></svg>
+          <span>Claim the Throne</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="how" aria-label="How it works">
+      <div class="how-card how-1">
+        <span class="how-num mono">01</span>
+        <h3>Bid</h3>
+        <p>Any amount from $5. One entry per URL or @handle.</p>
+      </div>
+      <div class="how-card how-2 how-paid" id="paid-spot"></div>
+      <div class="how-card how-3">
+        <span class="how-num mono">03</span>
+        <h3>Crowned</h3>
+        <p>At :00 the leader becomes King and is archived.</p>
+      </div>
+    </section>
+
+    <section class="board section" id="board">
+      <div class="board-head">
+        <h2 class="section-title">
+          <svg class="title-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-crown"/></svg>
+          Current Hour Board
+        </h2>
+        <span class="hour-key mono" id="hour-key"></span>
+      </div>
+
+      <div class="board-cols" aria-hidden="true">
+        <span>Rank</span>
+        <span>Entry</span>
+        <span>Total bid</span>
+        <span></span>
+      </div>
+
+      <div class="board-list" id="board-list" hidden></div>
+
+      <div class="empty-state" id="empty-state" hidden>
+        <div class="empty-crown" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><use href="#i-crown"/></svg>
+        </div>
+        <h3 class="empty-title">The throne is empty.</h3>
+        <p class="empty-sub">No bids in this hour yet. Be the first — history starts now.</p>
+        <button class="btn btn-primary btn-empty-claim" id="empty-claim-btn">
+          <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-crown"/></svg>
+          <span>Claim the Throne</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="past section">
+      <div class="board-head">
+        <h2 class="section-title">
+          <svg class="title-icon title-icon-dim" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-crown"/></svg>
+          Past Kings
+        </h2>
+      </div>
+      <div class="past-list" id="past-list"></div>
+      <p class="past-empty" id="past-empty" hidden>No kings crowned yet — the first hour is still unwritten.</p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <a class="footer-logo" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-crown"/></svg>
+        <span>HourKing</span>
+      </a>
+      <p class="footer-rule">One seat. One hour. Highest bid wins.</p>
+      <p class="footer-rules muted">Minimum bid $5 · increments of $1 · one entry per URL / handle per hour</p>
+      <p class="footer-links">
+        <span class="muted">Built in public</span>
+        <span class="dot">·</span>
+        <a href="#" class="footer-link">Twitter</a>
+      </p>
+    </div>
+  </footer>
+
+  <div class="modal-overlay" id="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" id="modal-close" aria-label="Close">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M3.5 3.5l9 9m0-9l-9 9"/></svg>
+      </button>
+      <h3 class="modal-title">
+        <svg class="modal-crown" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-crown"/></svg>
+        <span id="modal-title">Claim the Throne</span>
+      </h3>
+
+      <label class="field-label" for="bid-url">URL or @handle</label>
+      <input class="input" id="bid-url" type="text" inputmode="url" placeholder="https://yoursite.com or @you" autocomplete="off" spellcheck="false">
+
+      <label class="field-label" for="bid-amount">Your bid</label>
+      <div class="presets" id="presets">
+        <button class="preset" data-amount="5">$5</button>
+        <button class="preset" data-amount="10">$10</button>
+        <button class="preset" data-amount="25">$25</button>
+        <button class="preset" data-amount="50">$50</button>
+        <button class="preset" data-amount="100">$100</button>
+      </div>
+      <input class="input input-amount mono" id="bid-amount" type="number" min="5" step="1" placeholder="$">
+      <label class="field-label" for="bid-desc" id="bid-desc-label" hidden>Site description</label>
+      <input class="input" id="bid-desc" type="text" maxlength="120" placeholder="Your tagline — shown on the throne ad" hidden>
+      <p class="field-error" id="bid-error" hidden></p>
+
+      <div class="banner-preview" id="banner-preview" aria-hidden="true">
+        <span class="bp-label">Your banner</span>
+        <div class="bp-card">
+          <svg class="bp-crown" viewBox="0 0 24 24"><use href="#i-crown"/></svg>
+          <img class="bp-favicon" id="bp-favicon" src="" alt="">
+          <div class="bp-text">
+            <div class="bp-title" id="bp-title">Your product</div>
+            <div class="bp-url mono" id="bp-url">yoursite.com</div>
+            <div class="bp-desc" id="bp-desc"></div>
+          </div>
+          <span class="bp-amount mono" id="bp-amount">$5</span>
+          <span class="king-badge" id="bp-badge">King of the hour</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-pay" id="pay-btn">
+        <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-crown"/></svg>
+        <span id="pay-label">Pay $5 &amp; Claim</span>
+      </button>
+      <p class="modal-note muted"><span class="badge-demo">DEMO</span> Mock payment — no real money moves.</p>
+    </div>
+  </div>
+
+  <div class="coronation" id="coronation" hidden>
+    <div class="coro-inner">
+      <div class="coro-crown" aria-hidden="true">
+        <span class="coro-ring"></span>
+        <svg viewBox="0 0 24 24"><use href="#i-crown"/></svg>
+      </div>
+      <div class="coro-label">All hail</div>
+      <div class="coro-name" id="coro-name">—</div>
+      <div class="coro-sub mono" id="coro-sub"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden>
+    <svg class="toast-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"/></svg>
+    <span id="toast-text"></span>
+  </div>
+  <canvas class="confetti" id="confetti"></canvas>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
